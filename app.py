@@ -20,8 +20,6 @@ def main():
         return flask.jsonify({'status': 'error', 'message': 'Missing token URL parameter.'}), 400
     if not zone:
         return flask.jsonify({'status': 'error', 'message': 'Missing zone URL parameter.'}), 400
-    if not record:
-        return flask.jsonify({'status': 'error', 'message': 'Missing record URL parameter.'}), 400
     if not ipv4 and not ipv6:
         return flask.jsonify({'status': 'error', 'message': 'Missing ipv4 or ipv6 URL parameter.'}), 400
 
@@ -44,7 +42,7 @@ def main():
 
         if ipv4 is not None and a_record[0]['content'] != ipv4:
             cf.zones.dns_records.put(zones[0]['id'], a_record[0]['id'], data={
-                                     'name': a_record[0]['name'], 'type': 'A', 'content': ipv4, 'proxied': a_record[0]['proxied'], 'ttl': a_record[0]['ttl']})
+                                     'name': zone, 'type': 'A', 'content': ipv4, 'proxied': a_record[0]['proxied'], 'ttl': a_record[0]['ttl']})
 
         if ipv6 is not None and aaaa_record[0]['content'] != ipv6:
             cf.zones.dns_records.put(zones[0]['id'], aaaa_record[0]['id'], data={
