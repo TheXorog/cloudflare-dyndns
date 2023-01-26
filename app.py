@@ -30,9 +30,9 @@ def main():
             return flask.jsonify({'status': 'error', 'message': 'Zone {} does not exist.'.format(zone)}), 404
 
         a_record = cf.zones.dns_records.get(zones[0]['id'], params={
-                                            'name': '{}.{}'.format(record, zone), 'match': 'all', 'type': 'A'})
+                                            'name': zone, 'match': 'all', 'type': 'A'})
         aaaa_record = cf.zones.dns_records.get(zones[0]['id'], params={
-                                               'name': '{}.{}'.format(record, zone), 'match': 'all', 'type': 'AAAA'})
+                                               'name': zone, 'match': 'all', 'type': 'AAAA'})
 
         if ipv4 is not None and not a_record:
             return flask.jsonify({'status': 'error', 'message': 'A record for {}.{} does not exist.'.format(record, zone)}), 404
@@ -42,7 +42,7 @@ def main():
 
         if ipv4 is not None and a_record[0]['content'] != ipv4:
             cf.zones.dns_records.put(zones[0]['id'], a_record[0]['id'], data={
-                                     'name': zone, 'type': 'A', 'content': ipv4, 'proxied': a_record[0]['proxied'], 'ttl': a_record[0]['ttl']})
+                                     'name': a_record[0]['name'], 'type': 'A', 'content': ipv4, 'proxied': a_record[0]['proxied'], 'ttl': a_record[0]['ttl']})
 
         if ipv6 is not None and aaaa_record[0]['content'] != ipv6:
             cf.zones.dns_records.put(zones[0]['id'], aaaa_record[0]['id'], data={
