@@ -10,7 +10,7 @@ app = flask.Flask(__name__)
 @app.route('/', methods=['GET'])
 def main():
     retries = 0;
-    while true:
+    while True:
         token = flask.request.args.get('token')
         zone = flask.request.args.get('zone')
         ipv4 = flask.request.args.get('ipv4')
