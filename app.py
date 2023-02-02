@@ -51,7 +51,7 @@ def main():
         except CloudFlare.exceptions.CloudFlareAPIError as e:
             retries = retries + 1
             
-            if retries >= 3
+            if retries >= 3:
                 return flask.jsonify({'status': 'error', 'message': str(e)}), 500
             
             time.sleep(10)
